@@ -25,8 +25,8 @@ The full set of [extracted data](https://github.iu.edu/hayesall/PMDataDump/tree/
 
 1. `builddruglist.sh`
 
-⋅⋅⋅Downloads drug names from rxlist.com
-⋅⋅⋅Outputs a text file (`drugslist.txt`)
+⋅⋅⋅Downloads drug names from rxlist.com⋅⋅
+⋅⋅⋅Outputs a text file (`drugslist.txt`)⋅⋅
 ⋅⋅⋅Arguments can be passed to tweak the output.
 
 ⋅⋅* `bash builddruglist.sh         `(by default formats for openFDA)
@@ -36,11 +36,11 @@ The full set of [extracted data](https://github.iu.edu/hayesall/PMDataDump/tree/
 
 2. `rxdownloader.sh`
 
-⋅⋅⋅Takes a list of drugs(drugslist.txt)
-⋅⋅⋅Queries openFDA for each drug (`fdainteractions.sh`)
+⋅⋅⋅Takes a list of drugs(drugslist.txt)⋅⋅
+⋅⋅⋅Queries openFDA for each drug (`fdainteractions.sh`)⋅⋅
 ⋅⋅⋅Outputs a text file in drugInteractionsFolder/ (i.e. Warfarin+AND+Sodium will be output as drugInteractionsFolder/Warfarin+AND+Sodium-data.txt).
 
-⋅⋅⋅Running it is simple (though time consuming):
+⋅⋅⋅Running it is simple (though time consuming):⋅⋅
 ⋅⋅⋅`bash rxdownloader.sh`
 
 ⋅⋅⋅Additionally, RXDownloader does some sorting for us: it queries all __generic__ drugs, outputs __brand name__ drugs to a separate file (drugInteractionsFolder/BRANDNAMEDRUGS.txt), and separates __unknown drugs__ as well (drugInteractionsFolder/UNKNOWNDRUGS.txt).  Looking up generic drugs also pulls their brand-name equivalents, so redundancy is minimized.  Finally, each step is detailed in a Log file (drugInteractionsFolder/LOG.txt) which outlines what was queried and when it was completed.
