@@ -2,9 +2,9 @@
 
 ---
 
-__Alexander L. Hayes | Savannah Smith | Devendra Dhami | Sriraam Natarajan__
+__[Alexander L. Hayes](http://batflyer.net) | Savannah Smith | Devendra Dhami | Sriraam Natarajan__
 
-Using data pulled from rxlist.com, openFDA, PubMed.  This repository contains the scripts for pulling data from each source, and an overview of each are explained below.
+Using data pulled from rxlist.com, openFDA, and PubMed.  This repository contains the scripts for pulling data from each source, and an overview of each are explained below.
 
 ---
 
@@ -19,9 +19,9 @@ Using data pulled from rxlist.com, openFDA, PubMed.  This repository contains th
 #####openFDA:
 Here you will find several shell scripts for pulling drug names from rxlist.com, pulling labeling information from openFDA, and `fixlist.sh` to fix the list of drugs if `rxdownloader.sh` crashes halfway through.
 
-Running the scripts will take some time (`rxdownloader.sh` took about 6 hours in total to crawl through the database), find out more about the labeling database at [their website.](https://open.fda.gov/api/reference/)
+Running the scripts will take some time (`rxdownloader.sh` took about 6 hours in total to crawl through the database), find out more about openFDA at [their website.](https://open.fda.gov/api/reference/)
 
-The full set of [extracted data](https://github.iu.edu/hayesall/PMDataDump/tree/master/bashscripts/drugInteractionsFolder) can be found on Alexander's IU GitHub.  Because of its size forking the repository or downloading a .zip is recommended.
+The full set of [extracted data](https://github.iu.edu/hayesall/PMDataDump/tree/master/bashscripts/drugInteractionsFolder) can be found on Alexander's GitHub.  Because of its size, downloading a .zip is recommended.
 
 1. `builddruglist.sh`
 
