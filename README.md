@@ -45,7 +45,7 @@ The full set of [extracted data](https://github.iu.edu/hayesall/PMDataDump/tree/
    Running it is simple (though time consuming):  
    `bash rxdownloader.sh`
 
-   Additionally, RXDownloader does some sorting for us: it queries all __generic__ drugs, outputs __brand name__ drugs to a separate file (drugInteractionsFolder/BRANDNAMEDRUGS.txt), and separates __unknown drugs__ as well (drugInteractionsFolder/UNKNOWNDRUGS.txt).  Looking up generic drugs also pulls their brand-name equivalents, so redundancy is minimized.  Finally, each step is detailed in a Log file (drugInteractionsFolder/LOG.txt) which outlines what was queried and when it was completed.
+   Additionally, RXDownloader does some sorting for us: it queries all __generic__ drugs, outputs __brand name__ drugs to a separate file (drugInteractionsFolder/BRANDNAMEDRUGS.txt), and separates __unknown drugs__ as well (drugInteractionsFolder/UNKNOWNDRUGS.txt).  Looking up generic drugs also pulls their brand-name equivalents, so redundancy is minimized.  All drugs that have over 1000 results are cut off at 1000, their names are added to a file (drugInteractionsFolder/WARNINGS.txt).  Finally, each step is detailed in a Log file (drugInteractionsFolder/LOG.txt) which outlines what was queried and when it was completed.
 
    If RXDownloader crashes, it can be started up again to continue where it left off.
 
@@ -106,7 +106,7 @@ Professor Natarajan suggested we extract the top twenty abstracts from the past 
    `bash smartsplit.sh STABLE.txt`  
    `srun -N 71 pullabstractsODIN.sh`  
 
-   Running 71 copies in parallel is the difference between taking 68 days and taking 12 hours.  I wrote it this way to make it extremely easy to start the code back up if it crashes: running `srun -N 71 pullabstractsODIN.sh` again will automatically allocate the nodes again and pick up where it previously left off.  
+   Running 71 copies in parallel is the difference between taking 68 days and taking 1 day.  I wrote it this way to make it extremely easy to start the code back up if it crashes: running `srun -N 71 pullabstractsODIN.sh` again will automatically allocate the nodes again and pick up where it previously left off.  
 
    The downside is that this is _so_ specific to running on odin.cs.indiana.edu that it will not work anywhere else.  The script automatically allocates 71 nodes (the maximum allowed), and tells each node to run the script on a different set of files corresponding to Data/[1-71].  Running elsewhere would likely require heavy revisions to the code, but the main section that would need to be changed is fairly small:  
 
@@ -129,7 +129,7 @@ Professor Natarajan suggested we extract the top twenty abstracts from the past 
    	echo $HOST is at $NUMBER`
 ```
 
-[Return to Top](#drug-interaction-discovery-with-nlp-and-machine-learning) | [View in Folder](https://github.iu.edu/ProHealth/Drug_Interaction_Discovery/tree/master/openFDA)
+[Return to Top](#drug-interaction-discovery-with-nlp-and-machine-learning) | [View in Folder](https://github.iu.edu/ProHealth/Drug_Interaction_Discovery/tree/master/PubMed)
 
 ---
 
