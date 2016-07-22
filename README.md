@@ -112,16 +112,15 @@ Professor Natarajan suggested we extract the top twenty abstracts from the past 
 
 ```bash
 	function synchronize { 
-	
 	      HOSTNUMBER=`hostname | grep -o -P '(?<=odin).*(?=.cs.indiana.edu)' | sed 's/^0*//'`
-      	      echo $HOSTNUMBER
+	      echo $HOSTNUMBER
 	      sleep $HOSTNUMBER
-      	      HOST=`hostname`
+	      HOST=`hostname`
 
 	      echo "$HOST" >> $LOG
-      	      OUTPUT=`wc --lines $LOG | cut -d 'L' -f 1 | cut -d 'D' -f 1`
-      	      echo "$HOST$OUTPUT" >> $FINAL
-   	}
+	      OUTPUT=`wc --lines $LOG | cut -d 'L' -f 1 | cut -d 'D' -f 1`
+	      echo "$HOST$OUTPUT" >> $FINAL
+	}
 
    	sleep 5
 	synchronize
