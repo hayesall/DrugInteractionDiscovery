@@ -75,9 +75,11 @@ Professor Natarajan suggested we extract the top twenty abstracts from the past 
 
   * For completeness, additional functions are in the perlscripts/ directory.  Normally these would be placed under lib/, the path variable is updated automatically by the scripts.
 
-![Graph displaying how a matrix has duplicates when cut in half](http://i.imgur.com/cscwYOO.png "Cutting a matrix in half")
+2. `smartsplit.sh`
 
-2. `smartsplit`
+   ![Graph displaying how a matrix has duplicates when cut in half](http://i.imgur.com/cscwYOO.png "Cutting a matrix in half")
+
+3. `smartsplit`
 
 [Return to Top](#drug-interaction-discovery-with-nlp-and-machine-learning) | [View in Folder](https://github.iu.edu/ProHealth/Drug_Interaction_Discovery/tree/master/openFDA)
 
