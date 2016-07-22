@@ -58,9 +58,22 @@ The full set of [extracted data](https://github.iu.edu/hayesall/PMDataDump/tree/
 ---
 
 #####PubMed:
-The second dataset consists of Medical Abstracts from PubMed.
+The second dataset consists of Medical Abstracts from [PubMed](http://www.ncbi.nlm.nih.gov/pubmed).  The thought is that if drug-drug pairs appear in medical abstracts, the combination has been studied.  From the abstracts' text, we can discern the findings and whether or not there are adverse events caused by taking both.
 
+Presented here are several scripts for pulling the abstracts.  The bulk of the work is done through the RefSense package (Maintained by Lars Arvestad and distributed under a GNU Public License: [Website](http://www.csc.kth.se/~arve/code/refsense/) | [GitHub](https://github.com/arvestad/refsense)).  
 
+Professor Natarajan suggested we extract the top twenty abstracts from the past ten years (numbers chosen based on a paper he worked on), querying every drug combination (a total of 11,912,080 combinations possible) and outputing the results to text files.  Once again, the full set of [extracted data](https://github.iu.edu/hayesall/PMDataDump/tree/master/Generated/Abstracts) can be found on Alexander's GitHub (~25 GB).
+
+1. `pmid2text`, `pmsearch`, and perlscripts/
+
+  * Each article in PubMed is associated with a unique ID number.  
+  * `pmid2text` can be invoked to search for specific keywords and return all PubMed IDs associated with those.  Additionally, the `t` flag can be invoked to specify how old the abstracts can be (in this case, `-t 3650` for approximately 10 years), and the `d` flag can be passed to specify how many articles are returned (`-d 20`).
+  * `pmid2text` is used to convert these unique PubMed IDs to a text output: `-a -i` can be passed to pull the abstracts, and remove indentation, respectfully.
+
+  * We can chain these together:  
+   `perl pmsearch -t 3650 -d 20 $DRUG1 $DRUG2 | perl pmid2text -a -i > outputFile`
+
+  * For completeness, additional functions are in the perlscripts/ directory.  Normally these would be placed under lib/.
 
 [Return to Top](#drug-interaction-discovery-with-nlp-and-machine-learning) | [View in Folder](https://github.iu.edu/ProHealth/Drug_Interaction_Discovery/tree/master/openFDA)
 
