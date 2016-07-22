@@ -6,7 +6,7 @@ __[Alexander L. Hayes](http://batflyer.net) | Savannah Smith | Devendra Dhami | 
 
 Using data pulled from rxlist.com, openFDA, and PubMed.  This repository contains the scripts for pulling data from each source, and an overview of each are explained below.
 
-Questions?  Contact Alexander Hayes at __alexander(at)batflyer(dot)net__
+Questions?  Contact Alexander Hayes at __hayesall(at)indiana(dot)edu__.
 
 ---
 
