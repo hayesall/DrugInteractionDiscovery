@@ -80,21 +80,53 @@ Professor Natarajan suggested we extract the top twenty abstracts from the past 
    The drug combinations can be thought of as a matrix with drugs on the x and y axes.  
    With n=4881 drugs, checking every combination would normally take n^2 time.  However, a simple property allows us to cut this number in half, because [(x & y) == (y & x) when x=/=y].
    
-   However, running 11,912,080 checks in sequence would take close to 68 days (at least if you're running it on my laptop).  
-   We needed to run lots of the checks in parallel, and we needed to split the matrix in a way that made sure each node was responsible for a roughly equal number of calculations.  
+   However, running 11,912,080 checks in sequence would take close to 68 days (at least if you're running it on my laptop).  We needed to run lots of the checks in parallel, and we needed to split the matrix in a way that made sure each node was responsible for a roughly equal number of calculations.  
    
    ![Graph displaying how a matrix has duplicates when cut in half](http://i.imgur.com/cscwYOO.png "Cutting a matrix in half")
-   This graph represents what we are interested in.  The shaded red section represents duplicates and the unecessary checks where x=y.  The shaded green columns show roughly equal areas: columns [A-H] have roughly the same number of checks as column [Z].  
+   _This graph represents what we are interested in.  The shaded red section represents duplicates and unecessary checks where x=y.  The shaded green columns show roughly equal areas: columns [A-H] have roughly the same number of checks as column [Z]._
+
    `smartsplit.sh` needs to be size aware, splitting the matrix into equal parts depending on how many nodes are available to calculate.
 
-   `bash smartsplit.sh STABLE.txt` creates 71 directories under a directory called `Data/`.  (71 is the max number of nodes that can be allocated at once on IU's Odin Supercluster, more on that later).  Each directory under `Data/` is named after a number between 1 and 71.  Each of these subdirectories contains a copy of `STABLE.txt`, `drugs.txt`, and a `check_[1-71]`.
+   Running the code with `bash smartsplit.sh STABLE.txt` creates 71 directories under a directory called `Data/`.  (71 is the max number of nodes that can be allocated at once on IU's Odin Supercluster, more on that later).  Each directory under `Data/` is named after a number between 1 and 71.  Each of these subdirectories contains a copy of `STABLE.txt`, `drugs.txt`, and a `check_[1-71]`.
 
    A brief overview of each file (these are important for `pullabstractsODIN.sh`).  
   * `STABLE.txt`: a copy of druglist.txt, the output of `bash builddruglist.sh PubMed`.  It is called STABLE because it is never altered by a program, it is used for copying but is never modified.  
   * `drugs.txt`: a copy of `STABLE.txt` that can be altered by other scripts (file is the y axis).
   * `check_[1-71]`: this file is a list of drugs that a particular node is responsible for (file is the x axis).  Each item in this list is checked against everything in `drugs.txt` until check_[1-71] is exhausted.
  
-3. `smartsplit`
+3. `pullabstracts.sh` [View Code](https://github.iu.edu/ProHealth/2016-ProHealthREU-DrugInteractionsDiscovery-SmithHayes/blob/master/PubMed/pullabstracts.sh)
+
+   I would not suggest running this (but if you want to, it's as easy as `bash pullabstracts.sh STABLE.txt`).  The purpose I'm even including it is to explain why it's unusable.
+
+   This script pulls abstracts sequentially, making all 11,912,080 checks by itself.  This framework became `pullabstractsODIN.sh`, which can run 71 checks in parallel.
+
+4. `pullabstractsODIN.sh` [View Code](https://github.iu.edu/ProHealth/2016-ProHealthREU-DrugInteractionsDiscovery-SmithHayes/blob/master/PubMed/pullabstractsODIN.sh)
+
+   `bash builddruglist.sh PubMed && mv drugslist.txt STABLE.txt`  
+   `bash smartsplit.sh STABLE.txt`  
+   `srun -N 71 pullabstractsODIN.sh`  
+
+   Running 71 copies in parallel is the difference between taking 68 days and taking 12 hours.  I wrote it this way to make it extremely easy to start the code back up if it crashes: running `srun -N 71 pullabstractsODIN.sh` again will automatically allocate the nodes again and pick up where it previously left off.  
+
+   The downside is that this is _so_ specific to running on odin.cs.indiana.edu that it will not work anywhere else.  The script automatically allocates 71 nodes (the maximum allowed), and tells each node to run the script on a different set of files corresponding to Data/[1-71].  Running elsewhere would likely require heavy revisions to the code, but the main section that would need to be changed is fairly small:  
+
+`function synchronize { 
+
+    HOSTNUMBER=`hostname | grep -o -P '(?<=odin).*(?=.cs.indiana.edu)' | sed 's/^0*//'`
+    echo $HOSTNUMBER
+    sleep $HOSTNUMBER
+    HOST=`hostname`
+
+    echo "$HOST" >> $LOG
+    OUTPUT=`wc --lines $LOG | cut -d 'L' -f 1 | cut -d 'D' -f 1`
+    echo "$HOST$OUTPUT" >> $FINAL
+}
+
+sleep 5
+synchronize
+NUMBERSTRING=`grep $HOST $FINAL | cut -d 'u' -f 2`
+NUMBER=$(($NUMBERSTRING * 1))
+echo $HOST is at $NUMBER`
 
 [Return to Top](#drug-interaction-discovery-with-nlp-and-machine-learning) | [View in Folder](https://github.iu.edu/ProHealth/Drug_Interaction_Discovery/tree/master/openFDA)
 
