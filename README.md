@@ -24,11 +24,11 @@ Questions?  Contact Alexander Hayes at __hayesall(at)indiana(dot)edu__.
 
 This folder contains the final deliverables for the ProHealth Summer REU 2016.
 
-  * Presentation Poster
-  * Final Paper
-  * Video
+  * [Presentation Poster](Overview/Poster)
+  * [Final Paper](Overview/Predicting Drug-Drug Interactions from Text using NLP and Privileged Information.pdf)
+  * [Video](https://www.youtube.com/watch?v=yshy8NyhkZk)
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/ChtLD"><a href="//imgur.com/ChtLD"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+![Alexander and Savannah's Poster Preview](http://i.imgur.com/MMhd4zx.png "Poster preview")
 
 ---
 
