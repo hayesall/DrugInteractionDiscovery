@@ -11,10 +11,24 @@ Questions?  Contact Alexander Hayes at __hayesall(at)indiana(dot)edu__.
 ---
 
 ##### Table of Contents
-1. [openFDA](#openfda)
-2. [PubMed](#pubmed)
-3. [Confidence](#confidence)
-4. [Learning](#learning)
+1. [Overview](#Overview)
+2. [openFDA](#openfda)
+3. [PubMed](#pubmed)
+4. [SocialBlogs](#SocialBlogs)
+5. [Confidence](#confidence)
+6. [Learning](#learning)
+
+---
+
+#####Overview:
+
+This folder contains the final deliverables for the ProHealth Summer REU 2016.
+
+  * Presentation Poster
+  * Final Paper
+  * Video
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/ChtLD"><a href="//imgur.com/ChtLD"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 ---
 
@@ -112,14 +126,14 @@ Professor Natarajan suggested we extract the top twenty abstracts from the past 
 
 ```bash
 function synchronize { 
-HOSTNUMBER=`hostname | grep -o -P '(?<=odin).*(?=.cs.indiana.edu)' | sed 's/^0*//'`
-echo $HOSTNUMBER
-sleep $HOSTNUMBER
-HOST=`hostname`
+	 HOSTNUMBER=`hostname | grep -o -P '(?<=odin).*(?=.cs.indiana.edu)' | sed 's/^0*//'`
+	 echo $HOSTNUMBER
+	 sleep $HOSTNUMBER
+	 HOST=`hostname`
 
-echo "$HOST" >> $LOG
-OUTPUT=`wc --lines $LOG | cut -d 'L' -f 1 | cut -d 'D' -f 1`
-echo "$HOST$OUTPUT" >> $FINAL
+	 echo "$HOST" >> $LOG
+	 OUTPUT=`wc --lines $LOG | cut -d 'L' -f 1 | cut -d 'D' -f 1`
+	 echo "$HOST$OUTPUT" >> $FINAL
 }
 
 sleep 5
@@ -130,6 +144,11 @@ echo $HOST is at $NUMBER`
 ```
 
 [Return to Top](#drug-interaction-discovery-with-nlp-and-machine-learning) | [View in Folder](https://github.iu.edu/ProHealth/Drug_Interaction_Discovery/tree/master/PubMed)
+
+---
+
+#####SocialBlogs:
+
 
 ---
 
