@@ -111,22 +111,22 @@ Professor Natarajan suggested we extract the top twenty abstracts from the past 
    The downside is that this is _so_ specific to running on odin.cs.indiana.edu that it will not work anywhere else.  The script automatically allocates 71 nodes (the maximum allowed), and tells each node to run the script on a different set of files corresponding to Data/[1-71].  Running elsewhere would likely require heavy revisions to the code, but the main section that would need to be changed is fairly small:  
 
 ```bash
-	function synchronize { 
-	      HOSTNUMBER=`hostname | grep -o -P '(?<=odin).*(?=.cs.indiana.edu)' | sed 's/^0*//'`
-	            echo $HOSTNUMBER
-		          sleep $HOSTNUMBER
-			        HOST=`hostname`
+function synchronize { 
+HOSTNUMBER=`hostname | grep -o -P '(?<=odin).*(?=.cs.indiana.edu)' | sed 's/^0*//'`
+echo $HOSTNUMBER
+sleep $HOSTNUMBER
+HOST=`hostname`
 
-				      echo "$HOST" >> $LOG
-				            OUTPUT=`wc --lines $LOG | cut -d 'L' -f 1 | cut -d 'D' -f 1`
-					          echo "$HOST$OUTPUT" >> $FINAL
-						  }
+echo "$HOST" >> $LOG
+OUTPUT=`wc --lines $LOG | cut -d 'L' -f 1 | cut -d 'D' -f 1`
+echo "$HOST$OUTPUT" >> $FINAL
+}
 
-   						  sleep 5
-						  synchronize
-  						  NUMBERSTRING=`grep $HOST $FINAL | cut -d 'u' -f 2`
-  						  NUMBER=$(($NUMBERSTRING * 1))
-   						  echo $HOST is at $NUMBER`
+sleep 5
+synchronize
+NUMBERSTRING=`grep $HOST $FINAL | cut -d 'u' -f 2`
+NUMBER=$(($NUMBERSTRING * 1))
+echo $HOST is at $NUMBER`
 ```
 
 [Return to Top](#drug-interaction-discovery-with-nlp-and-machine-learning) | [View in Folder](https://github.iu.edu/ProHealth/Drug_Interaction_Discovery/tree/master/PubMed)
