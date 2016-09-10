@@ -96,7 +96,7 @@ Professor Natarajan suggested we extract the top twenty abstracts from the past 
    
    However, running 11,912,080 checks in sequence would take close to 68 days (at least if you're running it on my laptop).  We needed to run lots of the checks in parallel, and we needed to split the matrix in a way that made sure each node was responsible for a roughly equal number of calculations.  
    
-   ![Graph displaying how a matrix has duplicates when cut in half](http://i.imgur.com/cscwYOO.png "Cutting a matrix in half")
+   ![Graph displaying how a matrix has duplicates when cut in half](Overview/matrixcutting.png "Cutting a matrix in half")
    _This graph represents what we are interested in.  The shaded red section represents duplicates and unecessary checks where x=y.  The shaded green columns show roughly equal areas: columns [A-H] have roughly the same number of checks as column [Z]._
 
    `smartsplit.sh` needs to be size aware, splitting the matrix into equal parts depending on how many nodes are available to calculate.
