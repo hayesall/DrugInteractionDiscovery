@@ -85,7 +85,7 @@ function pullGeneric {
 	echo "" >> $FILENAME
 	echo "$DRUG" | grep -A 1 "\"drug_interactions\":" >> $FILENAME
 	echo "$DRUG" | grep -A 1 "\"adverse_reactions\":" >> $FILENAME
-	echo "$DRUG" | grep -A 1 "\"warnings_and_cautions\":" >> $FILENAME
+	#echo "$DRUG" | grep -A 1 "\"warnings_and_cautions\":" >> $FILENAME
 	echo "" >> $FILENAME
 	echo "------" >> $FILENAME
 	let SKIP+=1
@@ -108,6 +108,7 @@ function pullBrandName {
 	GENERICNAME=$(echo "$DRUG" | grep -A 1 "\"generic_name\"" | tail -n 1 | sed -e 's/^[[:space:]]*//' | sed 's/ /+AND+/g')
 	BRANDNAME=$(echo "$DRUG" | grep -A 1 "\"brand_name\"" | tail -n 1 | sed -e 's/^[[:space:]]*//' | sed 's/ /+AND+/g')
 	echo "$BRANDNAME | $GENERICNAME" >> drugInteractionsFolder/BRANDTOGENERIC.txt
+	echo "$GENERICNAME" >> drugInteractionsFolder/drugslist.txt
 	let SKIP+=1
     done
 }
