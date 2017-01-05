@@ -79,6 +79,9 @@ function pullGeneric {
 	echo Page $[SKIP+1] of $TOTAL >> $FILENAME
 	echo "$DRUG" | grep -A 1 "\"generic_name\"" >> $FILENAME
 	echo "$DRUG" | grep -A 1 "\"brand_name\"" >> $FILENAME
+	GENERICNAME=$(echo "$DRUG" | grep -A 1 "\"generic_name\"" | tail -n 1 | sed -e 's/^[[:space:]]*//' | sed 's/ /+AND+/g')
+	BRANDNAME=$(echo "$DRUG" | grep -A 1 "\"brand_name\"" | tail -n 1 | sed -e 's/^[[:space:]]*//' | sed 's/ /+AND+/g')
+	echo "$GENERICNAME | $BRANDNAME" >> drugInteractionsFolder/GENERICTOBRAND.txt
 	echo "" >> $FILENAME
 	echo "$DRUG" | grep -A 1 "\"drug_interactions\":" >> $FILENAME
 	echo "$DRUG" | grep -A 1 "\"adverse_reactions\":" >> $FILENAME
@@ -92,24 +95,41 @@ function pullGeneric {
 function pullBrandName {
     # expand on this function in case there isn't a generic form
     echo "$QUERY" >> drugInteractionsFolder/BRANDNAMEDRUGS.txt
+    until [ $SKIP -gt $REALTOTAL ]; do
+	ELAPSED=$[$(date '+%s')-STARTTIME]
+	SPEED=$((SKIP / ELAPSED))
+	printf "\r$[$SKIP+1] / $TOTAL | $QUERY [brand] | Time $ELAPSED"
+	NEXT_URL="$BRAND_URL&skip=$SKIP"
+	DRUG=$(wget --no-check-certificate -q -O - $NEXT_URL)
+	# Stay within the limits of the terms of service
+	if [ $SPEED -ge 4 ]; then
+	    sleep 1
+	fi
+	GENERICNAME=$(echo "$DRUG" | grep -A 1 "\"generic_name\"" | tail -n 1 | sed -e 's/^[[:space:]]*//' | sed 's/ /+AND+/g')
+	BRANDNAME=$(echo "$DRUG" | grep -A 1 "\"brand_name\"" | tail -n 1 | sed -e 's/^[[:space:]]*//' | sed 's/ /+AND+/g')
+	echo "$BRANDNAME | $GENERICNAME" >> drugInteractionsFolder/BRANDTOGENERIC.txt
+	let SKIP+=1
+    done
 }
 
 if [ $STATE = 3 ]; then
     echo Results will be output to file: $FILENAME
-    echo $TOTAL articles in query
-    echo " "
+    printf "$TOTAL articles in query\n\n"
     pullGeneric
 elif [ $STATE = 2 ]; then
-    echo " "
-    echo $QUERY is a brand name, storing in BRANDNAMEDRUGS.txt
-    echo " "
+    printf "\n$QUERY is a brand name, storing in BRANDNAMEDRUGS.txt\n\n"
     pullBrandName
 else
-    echo " "
-    echo $QUERY is unknown, storing in UNKNOWNDRUGS.txt
-    echo " "
+    printf "\n$QUERY is unknown, storing in UNKNOWNDRUGS.txt\n\n"
     echo "$QUERY" >> drugInteractionsFolder/UNKNOWNDRUGS.txt
 fi
 
 echo "FINISHED PULLING $TOTAL articles for $QUERY at" $('date') >> drugInteractionsFolder/LOG.txt
+
+if [ -e drugInteractionsFolder/GENERICTOBRAND.txt ]; then
+    sort -u drugInteractionsFolder/GENERICTOBRAND.txt > TEMP.txt && mv TEMP.txt drugInteractionsFolder/GENERICTOBRAND.txt
+fi
+if [ -e drugInteractionsFolder/BRANDTOGENERIC.txt ]; then
+    sort -u drugInteractionsFolder/BRANDTOGENERIC.txt > TEMP.txt && mv TEMP.txt drugInteractionsFolder/BRANDTOGENERIC.txt
+fi
 echo " "
