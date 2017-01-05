@@ -75,10 +75,10 @@ function pullGeneric {
 	if [ $SPEED -ge 4 ]; then
 	    sleep 1
 	fi
-	echo $NEXT_URL >> $FILENAME
-	echo Page $[SKIP+1] of $TOTAL >> $FILENAME
-	echo "$DRUG" | grep -A 1 "\"generic_name\"" >> $FILENAME
-	echo "$DRUG" | grep -A 1 "\"brand_name\"" >> $FILENAME
+	#echo $NEXT_URL >> $FILENAME
+	#echo Page $[SKIP+1] of $TOTAL >> $FILENAME
+	#echo "$DRUG" | grep -A 1 "\"generic_name\"" >> $FILENAME
+	#echo "$DRUG" | grep -A 1 "\"brand_name\"" >> $FILENAME
 	GENERICNAME=$(echo "$DRUG" | grep -A 1 "\"generic_name\"" | tail -n 1 | sed -e 's/^[[:space:]]*//' | sed 's/ /+AND+/g')
 	BRANDNAME=$(echo "$DRUG" | grep -A 1 "\"brand_name\"" | tail -n 1 | sed -e 's/^[[:space:]]*//' | sed 's/ /+AND+/g')
 	echo "$GENERICNAME | $BRANDNAME" >> drugInteractionsFolder/GENERICTOBRAND.txt
@@ -87,7 +87,7 @@ function pullGeneric {
 	echo "$DRUG" | grep -A 1 "\"adverse_reactions\":" >> $FILENAME
 	#echo "$DRUG" | grep -A 1 "\"warnings_and_cautions\":" >> $FILENAME
 	echo "" >> $FILENAME
-	echo "------" >> $FILENAME
+	#echo "------" >> $FILENAME
 	let SKIP+=1
     done
 }
