@@ -49,7 +49,7 @@ def main():
         for line in data.splitlines():
             print "Document %s/%s | Section %s/%s" % (current, total, current_section, total_sections)
             #convert from unicode to string
-            data_string = unicodedata.normalize('NFKD', data).encode('ascii','ignore')
+            data_string = unicodedata.normalize('NFKD', line).encode('ascii','ignore')
             #remove section numbers
             data_string = SECTION_NUMBER.sub('', data_string)
             #convert all text to lowercase
@@ -64,9 +64,9 @@ def main():
             #update numbers
             current_section = current_section + 1
 
-            with open(OUTPUT, 'a') as f:
-                f.write(data_string)
-            f.close()
+            with open(OUTPUT, 'a+') as f:
+                f.write(data_string + '\n')
+        current = current + 1
 
 def read_user_input():
     '''
